@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esfera Mágica - Muda de Cor</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .esfera {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: #ff6b6b;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3), 
+                        inset 0 -10px 20px rgba(0, 0, 0, 0.2),
+                        inset 10px 10px 20px rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 20px auto;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .esfera:hover {
+            transform: scale(1.1);
+            box-shadow: 0 25px 35px rgba(0, 0, 0, 0.4), 
+                        inset 0 -15px 25px rgba(0, 0, 0, 0.3),
+                        inset 15px 15px 25px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Efeito de brilho na esfera */
+        .esfera::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .instrucao {
+            color: white;
+            font-size: 18px;
+            margin-top: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="esfera" id="esfera"></div>
+        <div class="instrucao">✨ Passe o mouse para mudar a cor ✨</div>
+    </div>
+
+    <script>
+        const esfera = document.getElementById('esfera');
+        
+        function gerarCorAleatoria() {
+            // Gera valores aleatórios para RGB
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            
+            // Retorna a cor no formato rgb
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        // Adiciona o evento de mouseenter (quando o mouse entra na esfera)
+        esfera.addEventListener('mouseenter', function() {
+            const novaCor = gerarCorAleatoria();
+            this.style.backgroundColor = novaCor;
+            
+            // Adiciona um pequeno efeito de feedback
+            this.style.transition = 'background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease';
+        });
+
+        // Opcional: muda a cor também quando o mouse sai
+        esfera.addEventListener('mouseleave', function() {
+            // Você pode descomentar a linha abaixo se quiser que mude também quando o mouse sair
+            // this.style.backgroundColor = gerarCorAleatoria();
+        });
+    </script>
+</body>
+</html>
